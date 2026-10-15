@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thầy Bói Tài Gió - Phán Đâu Trúng Đó (Trừ Khi Sai)</title>
+  <style>
+    :root {
+      --primary-color: #ffd700;
+      --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      --card-bg: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Hiệu ứng mờ ẩn/hiện chuyển cảnh */
+    .step {
+      display: none;
+      animation: fadeIn 0.8s ease-in-out forwards;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, h2 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #e0e0e0;
+    }
+
+    .crystal-ball {
+      font-size: 80px;
+      margin: 15px 0;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite, glow 2s alternate infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px #a855f7); }
+      to { filter: drop-shadow(0 0 25px #3b82f6); }
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #f1f5f9;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    }
+
+    select option {
+      background: #1e1b4b;
+      color: #fff;
+    }
+
+    /* Button */
+    .btn {
+      background: linear-gradient(45deg, #f59e0b, #d97706);
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+      background: linear-gradient(45deg, #d97706, #b45309);
+    }
+
+    /* Spinner gieo quẻ */
+    .loader {
+      border: 5px solid rgba(255, 255, 255, 0.1);
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 25px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Result Box */
+    .result-box {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 15px;
+      border-left: 4px solid var(--primary-color);
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .result-title {
+      color: var(--primary-color);
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- BƯỚC 1: LỜI CHÀO MỪNG THẦN BÍ -->
+    <div id="step-1" class="step active">
+      <div class="crystal-ball">🔮</div>
+      <h1>THẦY BÓI TÀI GIÓ</h1>
+      <p><i>"Thiên cơ bất khả lộ... Ngoại trừ khi gặp Thầy!"</i></p>
+      <p>Hỡi chúng sinh đang hoang mang giữa dòng đời vạn biến, chào mừng bạn đã tìm đến điện thờ thần số của <b>Thầy Bói Tài Gió</b>. Nơi đây phán đâu trúng đó, hé lộ mọi bí mật về tương lai của bạn!</p>
+      <button class="btn" onclick="nextStep(2)">Thỉnh Cầu Thầy Bói ✨</button>
+    </div>
+
+    <!-- BƯỚC 2: NHẬP THÔNG TIN -->
+    <div id="step-2" class="step">
+      <h2>NHẬP THÔNG TIN GIEO QUẺ</h2>
+      <p>Để Thầy bấm ngón tay kết nối với vũ trụ:</p>
+      
+      <form id="fortuneForm" onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label for="fullName">Họ và tên tín chủ:</label>
+          <input type="text" id="fullName" placeholder="Ví dụ: Nguyễn Văn A" required>
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Ngày tháng năm sinh:</label>
+          <input type="date" id="dob" required>
+        </div>
+
+        <div class="form-group">
+          <label for="topic">Chủ đề muốn hỏi Thầy:</label>
+          <select id="topic" required>
+            <option value="" disabled selected>-- Chọn chủ đề --</option>
+            <option value="love">💕 Đường Tình Duyên</option>
+            <option value="career">💼 Sự Nghiệp & Cong Việc</option>
+            <option value="money">💰 Tiền Tài & Tài Lộc</option>
+            <option value="health">🧘 Sức Khỏe & Thần Khí</option>
+            <option value="general">🔮 Vận Hạn Tổng Quan</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn">Xem Quẻ Bói ☯️</button>
+      </form>
+    </div>
+
+    <!-- BƯỚC 3: ĐANG GIEO QUẺ (LOADING) -->
+    <div id="step-3" class="step">
+      <h2>THẦY ĐANG GIEO QUẺ...</h2>
+      <div class="loader"></div>
+      <p id="loading-text">Thầy đang truyền năng lượng vào vũ trụ...</p>
+    </div>
+
+    <!-- BƯỚC 4: KẾT QUẢ QUẺ BÓI -->
+    <div id="step-4" class="step">
+      <h2>🔮 LỜI PHÁN CỦA THẦY TÀI GIÓ</h2>
+      
+      <div class="result-box">
+        <p><b>Tín chủ:</b> <span id="res-name" style="color: #f59e0b;"></span></p>
+        <p><b>Chủ đề:</b> <span id="res-topic" style="color: #f59e0b;"></span></p>
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 12px 0;">
+        <div class="result-title">Lời Phán Từ Vũ Trụ:</div>
+        <p id="res-content" style="font-size: 17px; line-height: 1.7; color: #fff;"></p>
+      </div>
+
+      <button class="btn" onclick="resetFortune()">Gieo Quẻ Khác 🔄</button>
+    </div>
+
+  </div>
+
+  <script>
+    // Chuyển bước
+    function nextStep(stepNumber) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step-${stepNumber}`).classList.add('active');
+    }
+
+    // Kho lời phán hài hước theo chủ đề
+    const fortunes = {
+      love: [
+        "Người ấy đang ở rất gần bạn, cụ thể là ở trong trí tưởng tượng của bạn. Đừng lo, năm nay xác suất có người yêu cao tới 99% (1% còn lại phụ thuộc vào việc bạn có chịu ra khỏi nhà hay không)!",
+        "Đường tình duyên của bạn khá hanh thông, nhưng coi chừng rơi vào bẫy 'lắm mối tối nằm không'. Hãy bớt kén chọn lại, duyên đến thì đón, đừng đòi hỏi vừa giàu vừa đẹp vừa biết nấu ăn!",
+        "Sắp tới có người thầm thương trộm nhớ bạn. Tuy nhiên, tính bạn hơi cộc lốc nên hãy kiềm chế bớt, kẻo gieo hy vọng rồi lại tự tay dập tắt!"
+      ],
+      career: [
+        "Sự nghiệp sắp tới có bước tiến ngoạn mục. Sếp nhìn bạn với ánh mắt trìu mến hơn (đặc biệt khi bạn chịu làm ca đêm không tính lương). Hãy mạnh dạn đề xuất tăng lương!",
+        "Công việc có chút áp lực, nhưng vạn sự khởi đầu nan, gian nan bắt đầu nản. Đừng bỏ cuộc, quý nhân sắp xuất hiện gánh bớt deadline cho bạn!",
+        "Tài năng của bạn sắp được khai phá. Năm nay rất thích hợp để học thêm kỹ năng mới hoặc nhảy việc nếu công ty hiện tại quá 'toxic'!"
+      ],
+      money: [
+        "Xem ra ví tiền của bạn dạo này hơi 'gầy guộc'. Đừng lo, sắp tới tiền vào như nước sông Đà, tiền ra giọt giọt như cà phê phin. Tiết kiệm lại nhé!",
+        "Cẩn thận ví tiền trong tháng này! Thầy thấy có điềm báo chốt đơn vô độ trên Shopee/Lazada. Hãy xóa bớt ứng dụng mua sắm kẻo cuối tháng ăn mì tôm!",
+        "Vận may tài chính đang lên! Rất có thể bạn sẽ nhặt được tiền lẻ hoặc trúng giải gì đó nho nhỏ. Nếu muốn giàu nhanh thì hãy chăm chỉ làm việc chứ đừng mơ trúng số!"
+      ],
+      health: [
+        "Thần khí khá tốt, nhưng coi chừng các bệnh liên 관한 đến vai-gáy-cột-sống! Hãy bớt thức khuya lướt TikTok và uống đủ 2 lít nước mỗi ngày.",
+        "Sức khỏe dồi dào, cân nặng có xu hướng nhích nhẹ lên do tài ăn uống vô độ. Hãy năng vận động hơn thay vì nằm truyền thái y cả ngày!",
+        "Tinh thần cần được thư giãn. Hãy đi du lịch đâu đó gần gần để giải tỏa năng lượng tiêu cực. Nhớ ngủ đúng giờ, đừng làm cú đêm nữa!"
+      ],
+      general: [
+        "Tổng quan năm nay: Bình an vô sự chính là phúc lớn nhất. Mọi dự định dở dang sắp có lối thoát. Chỉ cần bạn tự tin và quyết đoán hơn!",
+        "Có quý nhân phù hộ từ xa. Mọi khó khăn hiện tại chỉ là bài test của vũ trụ dành cho bạn. Cứ vững tâm, sau cơn mưa trời lại sáng (và đường lại ngập)!",
+        "Năm nay hợp làm ăn, hợp kết giao bạn bè mới. Tuy nhiên nhớ giữ cái đầu lạnh trước những lời rủ rê đầu tư siêu lợi nhuận!"
+      ]
+    };
+
+    const topicNames = {
+      love: "💕 Đường Tình Duyên",
+      career: "💼 Sự Nghiệp & Công Việc",
+      money: "💰 Tiền Tài & Tài Lộc",
+      health: "🧘 Sức Khỏe & Thần Khí",
+      general: "🔮 Vận Hạn Tổng Quan"
+    };
+
+    const loadingPhrases = [
+      "Thầy đang đọc tín hiệu sao Thủy nghịch hành...",
+      "Thầy đang bấm quẻ âm dương...",
+      "Đang kết nối với vũ trụ...",
+      "Thầy đang giải mã vận mệnh..."
+    ];
+
+    // Xử lý khi nhấn nút Gieo Quẻ
+    function submitForm(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('fullName').value;
+      const topic = document.getElementById('topic').value;
+
+      // Chuyển sang màn hình Loading
+      nextStep(3);
+
+      // Đổi câu loading ngẫu nhiên
+      let phraseIdx = 0;
+      const interval = setInterval(() => {
+        phraseIdx = (phraseIdx + 1) % loadingPhrases.length;
+        document.getElementById('loading-text').innerText = loadingPhrases[phraseIdx];
+      }, 700);
+
+      // Giả lập tính toán thần bí trong 2.5 giây
+      setTimeout(() => {
+        clearInterval(interval);
+        
+        // Chọn ngẫu nhiên 1 câu phán theo chủ đề
+        const list = fortunes[topic];
+        const randomFortune = list[Math.floor(Math.random() * list.length)];
+
+        // Hiển thị kết quả
+        document.getElementById('res-name').innerText = name;
+        document.getElementById('res-topic').innerText = topicNames[topic];
+        document.getElementById('res-content').innerText = randomFortune;
+
+        // Chuyển sang bước kết quả
+        nextStep(4);
+      }, 2500);
+    }
+
+    // Làm mới để bói lại
+    function resetFortune() {
+      document.getElementById('fortuneForm').reset();
+      nextStep(1);
+    }
+  </script>
+</body>
+</html>
