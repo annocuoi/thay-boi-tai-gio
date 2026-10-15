@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thầy Bói Tài Gió - Phán Đâu Trúng Đó (Trừ Khi Sai)</title>
+  <title>Thầy Bói Tài Gió - Phán Đâu Trúng Đó</title>
   <style>
     :root {
       --primary-color: #ffd700;
@@ -11,18 +11,14 @@
       --card-bg: rgba(255, 255, 255, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
 
     body {
       background: var(--bg-gradient);
       color: #fff;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
@@ -35,50 +31,32 @@
       border-radius: 20px;
       padding: 30px;
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    /* Hiệu ứng mờ ẩn/hiện chuyển cảnh */
-    .step {
-      display: none;
-      animation: fadeIn 0.8s ease-in-out forwards;
-    }
-
-    .step.active {
-      display: block;
-    }
+    .step { display: none; animation: fadeIn 0.5s ease-in-out forwards; }
+    .step.active { display: block; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1, h2 {
-      color: var(--primary-color);
-      margin-bottom: 15px;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    }
-
-    p {
-      line-height: 1.6;
-      margin-bottom: 20px;
-      color: #e0e0e0;
-    }
+    h1, h2 { color: var(--primary-color); margin-bottom: 15px; }
+    p { line-height: 1.6; margin-bottom: 15px; color: #e0e0e0; }
 
     .crystal-ball {
-      font-size: 80px;
-      margin: 15px 0;
+      font-size: 70px;
+      margin: 10px 0;
       display: inline-block;
       animation: float 3s ease-in-out infinite, glow 2s alternate infinite;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      50% { transform: translateY(-10px); }
     }
 
     @keyframes glow {
@@ -86,42 +64,44 @@
       to { filter: drop-shadow(0 0 25px #3b82f6); }
     }
 
-    /* Form Styles */
-    .form-group {
-      margin-bottom: 18px;
+    .warning-note {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fbbf24;
+      font-size: 13.5px;
+      margin-bottom: 20px;
       text-align: left;
+      line-height: 1.5;
     }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      color: #f1f5f9;
-      font-weight: 500;
-    }
+    .form-group { margin-bottom: 16px; text-align: left; }
+    .form-row { display: flex; gap: 12px; }
+    .form-row .form-group { flex: 1; }
 
-    input, select {
+    label { display: block; margin-bottom: 6px; color: #f1f5f9; font-weight: 500; font-size: 14px; }
+
+    input, select, textarea {
       width: 100%;
-      padding: 12px;
+      padding: 11px;
       border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(0, 0, 0, 0.4);
       color: #fff;
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
-      transition: border 0.3s;
     }
 
-    input:focus, select:focus {
+    textarea { resize: vertical; min-height: 75px; }
+
+    input:focus, select:focus, textarea:focus {
       border-color: var(--primary-color);
       box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
     }
 
-    select option {
-      background: #1e1b4b;
-      color: #fff;
-    }
+    select option { background: #1e1b4b; color: #fff; }
 
-    /* Button */
     .btn {
       background: linear-gradient(45deg, #f59e0b, #d97706);
       color: #fff;
@@ -134,32 +114,26 @@
       width: 100%;
       margin-top: 10px;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-      transition: all 0.3s ease;
+      transition: all 0.3s;
     }
 
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
-      background: linear-gradient(45deg, #d97706, #b45309);
     }
 
-    /* Spinner gieo quẻ */
     .loader {
       border: 5px solid rgba(255, 255, 255, 0.1);
       border-top: 5px solid var(--primary-color);
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       animation: spin 1s linear infinite;
-      margin: 25px auto;
+      margin: 20px auto;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* Result Box */
     .result-box {
       background: rgba(0, 0, 0, 0.3);
       padding: 20px;
@@ -169,11 +143,111 @@
       margin-bottom: 20px;
     }
 
-    .result-title {
-      color: var(--primary-color);
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
+    .error-box {
+      border-left-color: #ef4444 !important;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .disclaimer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.45);
+      text-align: center;
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    /* Nút quản trị nhỏ ở góc trang */
+    .admin-entry {
+      
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 20;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      background: rgba(15,12,41,.72);
+      color: rgba(255,255,255,.72);
+      padding: 7px 11px;
+      font-size: 11px;
+      cursor: pointer;
+      opacity: .72;
+      transition: opacity .2s, background .2s;
+      width: auto;
+      margin: 0;
+      box-shadow: none;
+    }
+    .admin-entry:hover { opacity: 1; background: rgba(15,12,41,.96); }
+
+    .admin-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(7, 6, 24, .78);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .admin-modal-backdrop.open { display: flex; }
+    .admin-modal {
+      width: 100%;
+      max-width: 380px;
+      padding: 26px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #302b63, #24243e);
+      border: 1px solid rgba(255,215,0,.4);
+      box-shadow: 0 18px 50px rgba(0,0,0,.5);
+      text-align: left;
+    }
+    .admin-modal h2 { text-align: center; font-size: 22px; }
+    .admin-modal p { font-size: 13px; color: #d7d3ee; }
+    .admin-modal .modal-actions { display: flex; gap: 10px; }
+    .admin-modal .modal-actions button { flex: 1; font-size: 14px; padding: 11px 12px; }
+    .admin-cancel {
+      background: rgba(255,255,255,.12) !important;
+      box-shadow: none !important;
+    }
+    .admin-error {
+      color: #fca5a5 !important;
+      font-size: 13px;
+      min-height: 18px;
+      margin: 8px 0 0;
+    }
+
+
+    .admin-dashboard {
+      width: 100%;
+      max-width: 1050px !important;
+      max-height: 90vh;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .admin-dashboard-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .admin-dashboard-head h2 { margin-bottom: 12px; }
+    .admin-close { background:transparent; border:0; color:#fff; font-size:28px; cursor:pointer; }
+    .admin-status { padding:9px 12px; border-radius:8px; background:rgba(255,255,255,.08); }
+    .admin-panel { border:1px solid rgba(255,215,0,.22); border-radius:12px; padding:14px; margin:14px 0; }
+    .admin-panel h3 { color:#ffd700; margin-bottom:12px; font-size:16px; }
+    .admin-inline-form, .admin-search-row { display:flex; align-items:end; gap:12px; flex-wrap:wrap; }
+    .admin-inline-form > div { flex:1; min-width:140px; }
+    .admin-inline-form label { font-size:12px; }
+    .admin-inline-form input, .admin-search-row input { min-width:0; }
+    .admin-action { width:auto; margin:0; padding:10px 15px; font-size:13px; white-space:nowrap; }
+    .admin-search-row input { flex:1; }
+    .admin-hint { font-size:12px; opacity:.85; margin-top:10px; }
+    .admin-table-wrap { width:100%; overflow-x:auto; }
+    .admin-table { width:100%; border-collapse:collapse; font-size:13px; min-width:680px; }
+    .admin-table th, .admin-table td { border-bottom:1px solid rgba(255,255,255,.12); padding:9px 8px; text-align:left; vertical-align:middle; }
+    .admin-table th { color:#ffd700; background:rgba(0,0,0,.15); white-space:nowrap; }
+    .admin-table td button { font-size:12px; padding:7px 10px; margin:3px 3px 3px 0; width:auto; }
+    .admin-table .mini-input { width:75px; padding:7px; font-size:12px; }
+    .admin-footer-actions { margin-top:16px; }
+    @media (max-width:600px) {
+      .admin-dashboard { padding:16px; max-height:94vh; }
+      .admin-dashboard-head h2 { font-size:18px; }
+      .admin-inline-form .admin-action, .admin-search-row .admin-action { width:100%; }
     }
   </style>
 </head>
@@ -186,156 +260,547 @@
       <div class="crystal-ball">🔮</div>
       <h1>THẦY BÓI TÀI GIÓ</h1>
       <p><i>"Thiên cơ bất khả lộ... Ngoại trừ khi gặp Thầy!"</i></p>
-      <p>Hỡi chúng sinh đang hoang mang giữa dòng đời vạn biến, chào mừng bạn đã tìm đến điện thờ thần số của <b>Thầy Bói Tài Gió</b>. Nơi đây phán đâu trúng đó, hé lộ mọi bí mật về tương lai của bạn!</p>
+      <p>Hỡi chúng sinh đang hoang mang giữa dòng đời vạn biến, chào mừng bạn đã tìm đến điện thờ thần số của <b>Thầy Bói Tài Gió</b>. Nơi đây phán đâu trúng đó!</p>
       <button class="btn" onclick="nextStep(2)">Thỉnh Cầu Thầy Bói ✨</button>
     </div>
 
-    <!-- BƯỚC 2: NHẬP THÔNG TIN -->
+    <!-- BƯỚC 2: NHẬP THÔNG TIN & THẮC MẮC -->
     <div id="step-2" class="step">
-      <h2>NHẬP THÔNG TIN GIEO QUẺ</h2>
-      <p>Để Thầy bấm ngón tay kết nối với vũ trụ:</p>
+      <h2>GIEO QUẺ HỎI THẦY</h2>
       
-      <form id="fortuneForm" onsubmit="submitForm(event)">
-        <div class="form-group">
-          <label for="fullName">Họ và tên tín chủ:</label>
-          <input type="text" id="fullName" placeholder="Ví dụ: Nguyễn Văn A" required>
+      <div class="warning-note">
+        ⚠️ <b>Lưu ý quan trọng:</b> Hãy khai báo chính xác Giới tính, Ngày sinh & Tình trạng cá nhân. Nếu điền sai thông tin, kết quả gieo quẻ sẽ không chính xác!
+      </div>
+
+      <form id="fortuneForm" onsubmit="handleFortuneRequest(event)">
+        
+        <!-- Họ tên & Giới tính -->
+        <div class="form-row">
+          <div class="form-group" style="flex: 2;">
+            <label for="fullName">Họ và tên tín chủ:</label>
+            <input type="text" id="fullName" placeholder="Ví dụ: Võ Đức Tài" required>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label for="gender">Giới tính:</label>
+            <select id="gender" required>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+              <option value="Khác">Khác</option>
+            </select>
+          </div>
         </div>
 
+        <!-- Ngày sinh -->
         <div class="form-group">
           <label for="dob">Ngày tháng năm sinh:</label>
           <input type="date" id="dob" required>
         </div>
 
+        <!-- Tình trạng hôn nhân & Con cái -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="marital">Tình trạng hôn nhân:</label>
+            <select id="marital" required>
+              <option value="Độc thân">Độc thân</option>
+              <option value="Đã có người yêu">Đang hẹn hò</option>
+              <option value="Đã có gia đình">Đã kết hôn</option>
+              <option value="Đã ly hôn">Đã ly hôn</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="children">Mấy cháu rồi?</label>
+            <select id="children" required>
+              <option value="Chưa có con">Chưa có con</option>
+              <option value="1 con">1 cháu</option>
+              <option value="2 con">2 cháu</option>
+              <option value="3 con trở lên">3 cháu trở lên</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Chủ đề -->
         <div class="form-group">
           <label for="topic">Chủ đề muốn hỏi Thầy:</label>
           <select id="topic" required>
             <option value="" disabled selected>-- Chọn chủ đề --</option>
-            <option value="love">💕 Đường Tình Duyên</option>
-            <option value="career">💼 Sự Nghiệp & Cong Việc</option>
-            <option value="money">💰 Tiền Tài & Tài Lộc</option>
-            <option value="health">🧘 Sức Khỏe & Thần Khí</option>
-            <option value="general">🔮 Vận Hạn Tổng Quan</option>
+            <option value="Tình duyên">💕 Tình Duyên & Hôn Nhân</option>
+            <option value="Sự nghiệp">💼 Sự Nghiệp & Công Việc</option>
+            <option value="Tiền tài">💰 Tiền Tài & Lộc Phát</option>
+            <option value="Sức khỏe">🧘 Sức Khỏe & Thần Khí</option>
           </select>
         </div>
 
-        <button type="submit" class="btn">Xem Quẻ Bói ☯️</button>
+        <!-- Câu hỏi -->
+        <div class="form-group">
+          <label for="question">Câu hỏi chi tiết cho Thầy:</label>
+          <textarea id="question" placeholder="Ví dụ: Bao giờ em lấy vợ/chồng? / Năm nay làm ăn có phất không?" required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Gửi Câu Hỏi ☯️</button>
       </form>
     </div>
 
-    <!-- BƯỚC 3: ĐANG GIEO QUẺ (LOADING) -->
+    <!-- BƯỚC 3: LOADING -->
     <div id="step-3" class="step">
-      <h2>THẦY ĐANG GIEO QUẺ...</h2>
+      <h2>THẦY ĐANG SOI QUẺ...</h2>
       <div class="loader"></div>
-      <p id="loading-text">Thầy đang truyền năng lượng vào vũ trụ...</p>
+      <p id="loading-text">Thầy đang bấm ngón tay tính toán canh giờ...</p>
     </div>
 
-    <!-- BƯỚC 4: KẾT QUẢ QUẺ BÓI -->
+    <!-- BƯỚC 4: KẾT QUẢ ĐÚNG CHỦ ĐỀ -->
     <div id="step-4" class="step">
-      <h2>🔮 LỜI PHÁN CỦA THẦY TÀI GIÓ</h2>
-      
+      <h2>🔮 LỜI PHÁN CỦA THẦY</h2>
       <div class="result-box">
-        <p><b>Tín chủ:</b> <span id="res-name" style="color: #f59e0b;"></span></p>
+        <p><b>Tín chủ:</b> <span id="res-name" style="color: #f59e0b;"></span> (<span id="res-gender"></span> - <span id="res-dob"></span>)</p>
+        <p><b>Gia cảnh:</b> <span id="res-marital" style="color: #cbd5e1;"></span> | <span id="res-children" style="color: #cbd5e1;"></span></p>
         <p><b>Chủ đề:</b> <span id="res-topic" style="color: #f59e0b;"></span></p>
+        <p><b>Câu hỏi:</b> <i id="res-question"></i></p>
         <hr style="border-color: rgba(255,255,255,0.1); margin: 12px 0;">
-        <div class="result-title">Lời Phán Từ Vũ Trụ:</div>
-        <p id="res-content" style="font-size: 17px; line-height: 1.7; color: #fff;"></p>
+        <p style="color: #ffd700; font-weight: bold;">Thầy Tài Gió Phán:</p>
+        <p id="res-content" style="font-size: 16.5px; margin-top: 5px; line-height: 1.6;"></p>
       </div>
+      <button class="btn" onclick="nextStep(2)">Gieo Quẻ Khác 🔄</button>
+    </div>
 
-      <button class="btn" onclick="resetFortune()">Gieo Quẻ Khác 🔄</button>
+    <!-- BƯỚC 5: KẾT QUẢ SAI CHỦ ĐỀ HOẶC THÔNG TIN VÔ LÝ -->
+    <div id="step-5" class="step">
+      <h2 style="color: #ef4444;">⚠️ THẦY BẮT BÀI RỒI!</h2>
+      <div class="result-box error-box">
+        <p id="res-error-msg" style="color: #fca5a5; font-size: 16px; line-height: 1.6;"></p>
+      </div>
+      <button class="btn" style="background: #ef4444;" onclick="nextStep(2)">Sửa Lại Thông Tin ✏️</button>
     </div>
 
   </div>
 
+  <!-- DÒNG MIỄN TRỪ TRÁCH NHIỆM CHÂN TRANG -->
+  <div class="disclaimer">
+    📌 <b>Miễn trừ trách nhiệm:</b> Trang web hoàn toàn mang tính chất giải trí và đem lại tiếng cười thư giãn. Lời phán từ Thầy Bói Tài Gió không mang giá trị pháp lý, lời khuyên tài chính hay y tế chính thức.
+  </div>
+
+
+  <button id="adminEntryButton" class="btn admin-entry"
+          type="button" onclick="openAdminLogin()">
+    🔐 Quản trị viên
+  </button>
+  <div id="adminLoginBackdrop" class="admin-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle">
+    <div class="admin-modal">
+      <h2 id="adminLoginTitle">🔐 Quản trị viên</h2>
+      <p>Nhập mật khẩu quản trị để tiếp tục.</p>
+      <form onsubmit="adminLogin(event)">
+        <div class="form-group">
+          <label for="adminPassword">Mật khẩu quản trị</label>
+          <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu..." required>
+        </div>
+        <p id="adminLoginError" class="admin-error" aria-live="polite"></p>
+        <div class="modal-actions">
+          <button class="btn admin-cancel" type="button" onclick="closeAdminLogin()">Hủy</button>
+          <button class="btn" id="adminLoginSubmit" type="submit">Đăng nhập</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="adminDashboardBackdrop" class="admin-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="adminDashboardTitle">
+    <div class="admin-modal admin-dashboard">
+      <div class="admin-dashboard-head">
+        <h2 id="adminDashboardTitle">🛠️ Bảng quản trị Thầy Bói Tài Gió</h2>
+        <button class="admin-close" type="button" onclick="closeAdminDashboard()" aria-label="Đóng">×</button>
+      </div>
+      <p id="adminStatus" class="admin-status">Đang tải dữ liệu...</p>
+
+      <section class="admin-panel">
+        <h3>📊 Giới hạn mặc định mỗi ngày</h3>
+        <form id="limitsForm" class="admin-inline-form" onsubmit="saveLimits(event)">
+          <div><label for="profileDailyLimit">Lượt mỗi hồ sơ</label><input id="profileDailyLimit" type="number" min="1" max="1000" required></div>
+          <div><label for="ipDailyLimit">Lượt mỗi IP</label><input id="ipDailyLimit" type="number" min="1" max="1000" required></div>
+          <button class="btn admin-action" type="submit">Lưu giới hạn</button>
+        </form>
+      </section>
+
+      <section class="admin-panel">
+        <h3>🔎 Tìm kiếm hồ sơ / IP</h3>
+        <div class="admin-search-row">
+          <input id="adminSearch" type="search" placeholder="Nhập tên, ngày sinh, giới tính hoặc IP..." oninput="scheduleAdminSearch()">
+          <button class="btn admin-action" type="button" onclick="loadAdminDashboard()">Làm mới</button>
+        </div>
+        <p class="admin-hint">Ngày thống kê: <strong id="adminDay">—</strong>. Chỉ hồ sơ đã được ghi nhận mới có tên để tìm kiếm.</p>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Họ tên</th><th>Ngày sinh</th><th>Giới tính</th><th>IP gần nhất</th><th>Đã dùng / giới hạn</th><th>Cộng lượt</th></tr></thead>
+            <tbody id="adminProfilesBody"><tr><td colspan="6">Chưa tải dữ liệu.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <h3>🌐 Thống kê IP</h3>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Địa chỉ IP</th><th>Đã dùng / giới hạn</th><th>Trạng thái</th><th>Thao tác</th><th>Cộng lượt</th></tr></thead>
+            <tbody id="adminIpsBody"><tr><td colspan="5">Chưa tải dữ liệu.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="modal-actions admin-footer-actions">
+        <button class="btn admin-cancel" type="button" onclick="closeAdminDashboard()">Đóng</button>
+        <button class="btn" type="button" onclick="adminLogout()">Đăng xuất</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Chuyển bước
-    function nextStep(stepNumber) {
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById(`step-${stepNumber}`).classList.add('active');
+    // API được gọi qua backend để không làm lộ khóa OpenAI trong trình duyệt.
+
+
+
+    function openAdminLogin() {
+      document.getElementById('adminLoginError').textContent = '';
+      document.getElementById('adminPassword').value = '';
+      document.getElementById('adminLoginBackdrop').classList.add('open');
+      setTimeout(() => document.getElementById('adminPassword').focus(), 50);
     }
 
-    // Kho lời phán hài hước theo chủ đề
-    const fortunes = {
-      love: [
-        "Người ấy đang ở rất gần bạn, cụ thể là ở trong trí tưởng tượng của bạn. Đừng lo, năm nay xác suất có người yêu cao tới 99% (1% còn lại phụ thuộc vào việc bạn có chịu ra khỏi nhà hay không)!",
-        "Đường tình duyên của bạn khá hanh thông, nhưng coi chừng rơi vào bẫy 'lắm mối tối nằm không'. Hãy bớt kén chọn lại, duyên đến thì đón, đừng đòi hỏi vừa giàu vừa đẹp vừa biết nấu ăn!",
-        "Sắp tới có người thầm thương trộm nhớ bạn. Tuy nhiên, tính bạn hơi cộc lốc nên hãy kiềm chế bớt, kẻo gieo hy vọng rồi lại tự tay dập tắt!"
-      ],
-      career: [
-        "Sự nghiệp sắp tới có bước tiến ngoạn mục. Sếp nhìn bạn với ánh mắt trìu mến hơn (đặc biệt khi bạn chịu làm ca đêm không tính lương). Hãy mạnh dạn đề xuất tăng lương!",
-        "Công việc có chút áp lực, nhưng vạn sự khởi đầu nan, gian nan bắt đầu nản. Đừng bỏ cuộc, quý nhân sắp xuất hiện gánh bớt deadline cho bạn!",
-        "Tài năng của bạn sắp được khai phá. Năm nay rất thích hợp để học thêm kỹ năng mới hoặc nhảy việc nếu công ty hiện tại quá 'toxic'!"
-      ],
-      money: [
-        "Xem ra ví tiền của bạn dạo này hơi 'gầy guộc'. Đừng lo, sắp tới tiền vào như nước sông Đà, tiền ra giọt giọt như cà phê phin. Tiết kiệm lại nhé!",
-        "Cẩn thận ví tiền trong tháng này! Thầy thấy có điềm báo chốt đơn vô độ trên Shopee/Lazada. Hãy xóa bớt ứng dụng mua sắm kẻo cuối tháng ăn mì tôm!",
-        "Vận may tài chính đang lên! Rất có thể bạn sẽ nhặt được tiền lẻ hoặc trúng giải gì đó nho nhỏ. Nếu muốn giàu nhanh thì hãy chăm chỉ làm việc chứ đừng mơ trúng số!"
-      ],
-      health: [
-        "Thần khí khá tốt, nhưng coi chừng các bệnh liên 관한 đến vai-gáy-cột-sống! Hãy bớt thức khuya lướt TikTok và uống đủ 2 lít nước mỗi ngày.",
-        "Sức khỏe dồi dào, cân nặng có xu hướng nhích nhẹ lên do tài ăn uống vô độ. Hãy năng vận động hơn thay vì nằm truyền thái y cả ngày!",
-        "Tinh thần cần được thư giãn. Hãy đi du lịch đâu đó gần gần để giải tỏa năng lượng tiêu cực. Nhớ ngủ đúng giờ, đừng làm cú đêm nữa!"
-      ],
-      general: [
-        "Tổng quan năm nay: Bình an vô sự chính là phúc lớn nhất. Mọi dự định dở dang sắp có lối thoát. Chỉ cần bạn tự tin và quyết đoán hơn!",
-        "Có quý nhân phù hộ từ xa. Mọi khó khăn hiện tại chỉ là bài test của vũ trụ dành cho bạn. Cứ vững tâm, sau cơn mưa trời lại sáng (và đường lại ngập)!",
-        "Năm nay hợp làm ăn, hợp kết giao bạn bè mới. Tuy nhiên nhớ giữ cái đầu lạnh trước những lời rủ rê đầu tư siêu lợi nhuận!"
-      ]
-    };
+    function closeAdminLogin() {
+      document.getElementById('adminLoginBackdrop').classList.remove('open');
+    }
 
-    const topicNames = {
-      love: "💕 Đường Tình Duyên",
-      career: "💼 Sự Nghiệp & Công Việc",
-      money: "💰 Tiền Tài & Tài Lộc",
-      health: "🧘 Sức Khỏe & Thần Khí",
-      general: "🔮 Vận Hạn Tổng Quan"
-    };
+    function closeAdminDashboard() {
+      document.getElementById('adminDashboardBackdrop').classList.remove('open');
+    }
 
-    const loadingPhrases = [
-      "Thầy đang đọc tín hiệu sao Thủy nghịch hành...",
-      "Thầy đang bấm quẻ âm dương...",
-      "Đang kết nối với vũ trụ...",
-      "Thầy đang giải mã vận mệnh..."
-    ];
+    async function adminLogin(event) {
+      event.preventDefault();
+      const passwordInput = document.getElementById('adminPassword');
+      const error = document.getElementById('adminLoginError');
+      const submit = document.getElementById('adminLoginSubmit');
+      error.textContent = '';
+      submit.disabled = true;
+      submit.textContent = 'Đang kiểm tra...';
 
-    // Xử lý khi nhấn nút Gieo Quẻ
-    function submitForm(e) {
+      try {
+        const response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: passwordInput.value })
+        });
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.success) {
+          error.textContent = data.error || 'Đăng nhập chưa thành công. Vui lòng thử lại.';
+          return;
+        }
+
+        closeAdminLogin();
+        document.getElementById('adminDashboardBackdrop').classList.add('open');
+        await loadAdminDashboard();
+      } catch (err) {
+        error.textContent = 'Không kết nối được máy chủ. Hãy kiểm tra server.js.';
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Đăng nhập';
+      }
+    }
+
+    let adminSearchTimer = null;
+
+    function escapeAdminHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[char]));
+    }
+
+    async function adminApi(url, options = {}) {
+      const response = await fetch(url, {
+        credentials: 'same-origin',
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          ...(options.body ? { 'Content-Type': 'application/json' } : {})
+        }
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Không thể thực hiện thao tác.');
+      return data;
+    }
+
+    function scheduleAdminSearch() {
+      clearTimeout(adminSearchTimer);
+      adminSearchTimer = setTimeout(loadAdminDashboard, 300);
+    }
+
+    async function loadAdminDashboard() {
+      const status = document.getElementById('adminStatus');
+      status.textContent = 'Đang tải dữ liệu...';
+      try {
+        const search = document.getElementById('adminSearch').value.trim();
+        const data = await adminApi('/api/admin/dashboard?search=' + encodeURIComponent(search));
+        document.getElementById('adminDay').textContent = data.day || '—';
+        document.getElementById('profileDailyLimit').value = data.limits?.profileDailyLimit ?? 5;
+        document.getElementById('ipDailyLimit').value = data.limits?.ipDailyLimit ?? 10;
+
+        const profilesBody = document.getElementById('adminProfilesBody');
+        const profiles = data.profiles || [];
+        profilesBody.innerHTML = profiles.length ? profiles.map(item => `
+          <tr>
+            <td>${escapeAdminHtml(item.name)}</td>
+            <td>${escapeAdminHtml(item.dob)}</td>
+            <td>${escapeAdminHtml(item.gender)}</td>
+            <td>${escapeAdminHtml(item.lastIp || '—')}</td>
+            <td>${Number(item.profileUsed) || 0} / ${Number(item.profileLimit) || 0}</td>
+            <td><button class="btn admin-action" type="button" onclick="grantProfileExtra('${escapeAdminHtml(item.name)}','${escapeAdminHtml(item.dob)}','${escapeAdminHtml(item.gender)}')">Cộng lượt</button></td>
+          </tr>`).join('') : '<tr><td colspan="6">Không tìm thấy hồ sơ. Hồ sơ cũ chưa được lưu tên sẽ không thể tra cứu theo tên.</td></tr>';
+
+        const ipsBody = document.getElementById('adminIpsBody');
+        const ips = data.ips || [];
+        ipsBody.innerHTML = ips.length ? ips.map(item => `
+          <tr>
+            <td>${escapeAdminHtml(item.ip)}</td>
+            <td>${Number(item.used) || 0} / ${Number(item.limit) || 0}</td>
+            <td>${item.blocked ? 'Đã chặn thủ công' : item.autoBlocked ? 'Tự khóa trong ngày' : 'Hoạt động'}</td>
+            <td>
+              <button class="btn admin-action" type="button" onclick="toggleAdminIp('${escapeAdminHtml(item.ip)}', ${!item.blocked})">${item.blocked ? 'Bỏ chặn' : 'Chặn IP'}</button>
+            </td>
+            <td><button class="btn admin-action" type="button" onclick="grantIpExtra('${escapeAdminHtml(item.ip)}')">Cộng lượt</button></td>
+          </tr>`).join('') : '<tr><td colspan="5">Chưa có dữ liệu IP trong ngày.</td></tr>';
+
+        status.textContent = 'Đã tải dữ liệu. Hồ sơ: ' + profiles.length + ' • IP: ' + ips.length;
+      } catch (error) {
+        status.textContent = error.message + ' Hãy kiểm tra server.js và đăng nhập lại nếu phiên đã hết hạn.';
+      }
+    }
+
+    async function saveLimits(event) {
+      event.preventDefault();
+      try {
+        const data = await adminApi('/api/admin/limits', {
+          method: 'POST',
+          body: JSON.stringify({
+            profileDailyLimit: Number(document.getElementById('profileDailyLimit').value),
+            ipDailyLimit: Number(document.getElementById('ipDailyLimit').value)
+          })
+        });
+        document.getElementById('adminStatus').textContent =
+          `Đã lưu giới hạn: hồ sơ ${data.limits.profileDailyLimit} lượt, IP ${data.limits.ipDailyLimit} lượt mỗi ngày.`;
+        await loadAdminDashboard();
+      } catch (error) {
+        document.getElementById('adminStatus').textContent = error.message;
+      }
+    }
+
+    async function grantProfileExtra(name, dob, gender) {
+      const extra = prompt(`Cộng thêm bao nhiêu lượt cho ${name} (${dob}, ${gender})? Nhập 0 để xóa lượt cộng thêm.`);
+      if (extra === null) return;
+      if (!/^\d+$/.test(extra) || Number(extra) > 1000) {
+        alert('Nhập số nguyên từ 0 đến 1000.');
+        return;
+      }
+      try {
+        await adminApi('/api/admin/extra-allowance', {
+          method: 'POST',
+          body: JSON.stringify({ type: 'profile', name, dob, gender, extraQuestions: Number(extra) })
+        });
+        await loadAdminDashboard();
+      } catch (error) { alert(error.message); }
+    }
+
+    async function grantIpExtra(ip) {
+      const extra = prompt(`Cộng thêm bao nhiêu lượt cho IP ${ip}? Nhập 0 để xóa lượt cộng thêm.`);
+      if (extra === null) return;
+      if (!/^\d+$/.test(extra) || Number(extra) > 1000) {
+        alert('Nhập số nguyên từ 0 đến 1000.');
+        return;
+      }
+      try {
+        await adminApi('/api/admin/extra-allowance', {
+          method: 'POST',
+          body: JSON.stringify({ type: 'ip', ip, extraQuestions: Number(extra) })
+        });
+        await loadAdminDashboard();
+      } catch (error) { alert(error.message); }
+    }
+
+    async function toggleAdminIp(ip, blocked) {
+      if (!confirm(`${blocked ? 'Chặn' : 'Bỏ chặn'} IP ${ip}?`)) return;
+      try {
+        await adminApi('/api/admin/block-ip', {
+          method: 'POST',
+          body: JSON.stringify({ ip, blocked })
+        });
+        await loadAdminDashboard();
+      } catch (error) { alert(error.message); }
+    }
+
+    async function adminLogout() {
+      try {
+        await fetch('/api/admin/logout', { method: 'POST' });
+      } catch (err) {
+        console.error('Lỗi đăng xuất quản trị:', err);
+      }
+      closeAdminDashboard();
+    }
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeAdminLogin();
+        closeAdminDashboard();
+      }
+    });
+
+    function nextStep(step) {
+      document.querySelectorAll('.step').forEach(s => {
+        s.classList.remove('active');
+      });
+
+      document.getElementById(`step-${step}`).classList.add('active');
+
+      // Chỉ hiện nút quản trị viên ở trang đầu tiên
+      const adminButton = document.getElementById('adminEntryButton');
+
+      if (adminButton) {
+        adminButton.style.display = step === 1 ? 'block' : 'none';
+      }
+    }
+
+    async function handleFortuneRequest(e) {
       e.preventDefault();
       
-      const name = document.getElementById('fullName').value;
+      const name = document.getElementById('fullName').value.trim();
+      const gender = document.getElementById('gender').value;
+      const dob = document.getElementById('dob').value;
+      const marital = document.getElementById('marital').value;
+      const children = document.getElementById('children').value;
       const topic = document.getElementById('topic').value;
+      const question = document.getElementById('question').value.trim();
+      const qLower = question.toLowerCase();
 
-      // Chuyển sang màn hình Loading
+      // Từ khóa nhận diện chủ đề câu hỏi
+      const loveKeywords = ["vợ", "chồng", "người yêu", "bạn gái", "bạn trai", "cưới", "kết hôn", "lấy vợ", "lấy chồng", "thầm thương"];
+      const nonLoveKeywords = ["tiền", "lương", "giàu", "sếp", "công việc", "nhảy việc", "bệnh", "sức khỏe", "mua đất", "trúng số", "bán đất"];
+
+      const isAskingLove = loveKeywords.some(kw => qLower.includes(kw));
+      const isAskingMoneyWorkHealth = nonLoveKeywords.some(kw => qLower.includes(kw));
+
+      // ========================================================
+      // 🚨 BỘ LỌC KIỂM TRA MÂU THUẪN & SAI CHỦ ĐỀ TRỰC TIẾP
+      // ========================================================
+
+      // 1. Mâu thuẫn: Độc thân mà có con
+      if (marital === "Độc thân" && children !== "Chưa có con") {
+        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ ${name} khai báo "Độc thân" mà lại chọn có "${children}"? Chưa cưới mà đã có nghé hả? Khai báo lại giúp Thầy nhé!`;
+        nextStep(5);
+        return;
+      }
+
+      // 2. Mâu thuẫn: Đã kết hôn mà hỏi chuyện cưới xin/vợ chồng
+      if (marital === "Đã có gia đình" && isAskingLove) {
+        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ đã "Đã kết hôn" rồi mà còn hỏi chuyện lấy vợ/chồng nữa? Định tơ tưởng ai nữa đây?`;
+        nextStep(5);
+        return;
+      }
+
+      // 3. Mâu thuẫn giới tính
+      if (gender === "Nữ" && (qLower.includes("có vợ") || qLower.includes("lấy vợ"))) {
+        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ khai giới tính Nữ mà lại hỏi "khi nào lấy vợ"? Kiểm tra lại giới tính giúp Thầy nhé!`;
+        nextStep(5);
+        return;
+      }
+      if (gender === "Nam" && (qLower.includes("có chồng") || qLower.includes("lấy chồng"))) {
+        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ khai giới tính Nam mà lại hỏi "khi nào lấy chồng"? Kiểm tra lại giúp Thầy nhé!`;
+        nextStep(5);
+        return;
+      }
+
+      // 4. Sai chủ đề: Chọn Sức khỏe/Sự nghiệp/Tiền tài mà lại hỏi chuyện yêu đương/vợ chồng
+      if (topic !== "Tình duyên" && isAskingLove) {
+        document.getElementById('res-error-msg').innerText = `Hỏi sai chủ đề rồi tín chủ ơi! Chọn chủ đề "${topic}" mà lại hỏi chuyện vợ chồng, yêu đương? Phải chọn mục "💕 Tình Duyên & Hôn Nhân" Thầy mới bấm quẻ được!`;
+        nextStep(5);
+        return;
+      }
+
+      // 5. Sai chủ đề: Chọn Tình duyên mà hỏi tiền tài/sức khỏe/công việc
+      if (topic === "Tình duyên" && isAskingMoneyWorkHealth) {
+        document.getElementById('res-error-msg').innerText = `Hỏi sai chủ đề rồi! Tín chủ chọn chủ đề "Tình duyên" mà lại hỏi về công việc, tiền tài hay sức khỏe. Vui lòng đổi lại đúng chủ đề giúp Thầy!`;
+        nextStep(5);
+        return;
+      }
+
       nextStep(3);
 
-      // Đổi câu loading ngẫu nhiên
-      let phraseIdx = 0;
-      const interval = setInterval(() => {
-        phraseIdx = (phraseIdx + 1) % loadingPhrases.length;
-        document.getElementById('loading-text').innerText = loadingPhrases[phraseIdx];
-      }, 700);
 
-      // Giả lập tính toán thần bí trong 2.5 giây
-      setTimeout(() => {
-        clearInterval(interval);
-        
-        // Chọn ngẫu nhiên 1 câu phán theo chủ đề
-        const list = fortunes[topic];
-        const randomFortune = list[Math.floor(Math.random() * list.length)];
+      // Gọi AI xử lý câu phán
+      const aiResponse = await askGPT(name, gender, dob, marital, children, topic, question);
 
-        // Hiển thị kết quả
-        document.getElementById('res-name').innerText = name;
-        document.getElementById('res-topic').innerText = topicNames[topic];
-        document.getElementById('res-content').innerText = randomFortune;
-
-        // Chuyển sang bước kết quả
-        nextStep(4);
-      }, 2500);
+      if (aiResponse.isCorrect) {
+        displayResult(name, gender, dob, marital, children, topic, question, aiResponse.answer);
+      } else {
+        document.getElementById('res-error-msg').innerText = aiResponse.answer;
+        nextStep(5);
+      }
     }
 
-    // Làm mới để bói lại
-    function resetFortune() {
-      document.getElementById('fortuneForm').reset();
-      nextStep(1);
+    function displayResult(name, gender, dob, marital, children, topic, question, answer) {
+      document.getElementById('res-name').innerText = name;
+      document.getElementById('res-gender').innerText = gender;
+      document.getElementById('res-dob').innerText = dob;
+      document.getElementById('res-marital').innerText = marital;
+      document.getElementById('res-children').innerText = children;
+      document.getElementById('res-topic').innerText = topic;
+      document.getElementById('res-question').innerText = `"${question}"`;
+      document.getElementById('res-content').innerText = answer;
+      nextStep(4);
+    }
+
+    async function askGPT(name, gender, dob, marital, children, topic, question) {
+      const prompt = `Bạn là "Thầy Bói Tài Gió" - một ông thầy bói tâm linh cực kỳ hài hước, bá đạo, phán thâm thúy và rất "mặn".
+Thông tin người xin quẻ:
+- Họ tên: ${name}
+- Giới tính: ${gender}
+- Ngày sinh: ${dob}
+- Tình trạng: ${marital}, ${children}
+- Chủ đề: "${topic}"
+- Câu hỏi: "${question}"
+
+Nhiệm vụ: Hãy đóng vai Thầy Bói Tài Gió phán trực tiếp câu hỏi này. Lời phán phải cực kỳ đa dạng, sáng tạo, trêu đùa hài hước dựa trên đúng tên, tuổi, gia cảnh và câu hỏi của họ. Tuyệt đối KHÔNG trả về các câu chung chung lặp đi lặp lại. Xưng "Thầy" và gọi "tín chủ". Viết khoảng 3-5 câu ngắn gọn, độc lạ. Đây là nội dung giải trí, không khẳng định chắc chắn về sức khỏe, tài chính hoặc tương lai.`;
+
+      try {
+        const response = await fetch("/api/fortune", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt,
+            profile: { name, gender, dob, marital, children, topic, question }
+          })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          console.error("Lỗi máy chủ GPT:", data);
+
+          return {
+            isCorrect: false,
+            answer: data.error || "Thầy đang mất kết nối với vũ trụ GPT. Vui lòng thử lại sau nhé!"
+          };
+        }
+
+        if (!data.answer) {
+          return {
+            isCorrect: false,
+            answer: "GPT chưa gửi được lời phán. Tín chủ thử gieo quẻ lại nhé!"
+          };
+        }
+
+        return { isCorrect: true, answer: data.answer };
+      } catch (err) {
+        console.error("Lỗi kết nối backend:", err);
+
+        return {
+          isCorrect: false,
+          answer: "Không kết nối được máy chủ GPT. Hãy kiểm tra backend đã chạy và thử lại nhé!"
+        };
+      }
     }
   </script>
 </body>
