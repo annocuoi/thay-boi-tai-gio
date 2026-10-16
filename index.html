@@ -296,11 +296,12 @@
           <input
             type="text"
             id="dob"
-            name="dob"
             placeholder="dd/mm/yyyy"
             inputmode="numeric"
             autocomplete="bday"
             maxlength="10"
+            pattern="\d{2}/\d{2}/\d{4}"
+            title="Nhập ngày sinh dạng dd/mm/yyyy, ví dụ 10061995"
             required
           >
         </div>
@@ -460,6 +461,38 @@
   </div>
 
   <script>
+    // Cho phép gõ liền 10061995 và tự định dạng thành 10/06/1995.
+    const dobInput = document.getElementById('dob');
+
+    dobInput.addEventListener('input', function () {
+      const digits = this.value.replace(/\D/g, '').slice(0, 8);
+      let formatted = digits;
+
+      if (digits.length > 4) {
+        formatted = digits.slice(0, 2) + '/' + digits.slice(2, 4) + '/' + digits.slice(4);
+      } else if (digits.length > 2) {
+        formatted = digits.slice(0, 2) + '/' + digits.slice(2);
+      }
+
+      this.value = formatted;
+    });
+
+    // Kiểm tra ngày thực tế để tránh các ngày không tồn tại.
+    dobInput.addEventListener('change', function () {
+      const match = this.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!match) return;
+      const day = Number(match[1]);
+      const month = Number(match[2]);
+      const year = Number(match[3]);
+      const date = new Date(year, month - 1, day);
+      if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+        this.setCustomValidity('Ngày sinh không hợp lệ. Vui lòng nhập dd/mm/yyyy.');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+    dobInput.addEventListener('input', function () { this.setCustomValidity(''); });
+
     // API được gọi qua backend để không làm lộ khóa OpenAI trong trình duyệt.
 
 
@@ -677,7 +710,23 @@
       
       const name = document.getElementById('fullName').value.trim();
       const gender = document.getElementById('gender').value;
-      const dob = document.getElementById('dob').value;
+      const dob = document.getElementById('dob').value.trim();
+      const dobMatch = dob.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!dobMatch) {
+        document.getElementById('dob').setCustomValidity('Nhập ngày sinh dạng dd/mm/yyyy, ví dụ 10061995.');
+        document.getElementById('dob').reportValidity();
+        return;
+      }
+      const dobDay = Number(dobMatch[1]);
+      const dobMonth = Number(dobMatch[2]);
+      const dobYear = Number(dobMatch[3]);
+      const dobDate = new Date(dobYear, dobMonth - 1, dobDay);
+      if (dobDate.getFullYear() !== dobYear || dobDate.getMonth() !== dobMonth - 1 || dobDate.getDate() !== dobDay) {
+        document.getElementById('dob').setCustomValidity('Ngày sinh không hợp lệ.');
+        document.getElementById('dob').reportValidity();
+        return;
+      }
+      document.getElementById('dob').setCustomValidity('');
       const marital = document.getElementById('marital').value;
       const children = document.getElementById('children').value;
       const topic = document.getElementById('topic').value;
