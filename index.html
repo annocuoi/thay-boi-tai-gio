@@ -159,7 +159,6 @@
 
     /* Nút quản trị nhỏ ở góc trang */
     .admin-entry {
-      
       position: fixed;
       right: 14px;
       bottom: 14px;
@@ -215,7 +214,6 @@
       min-height: 18px;
       margin: 8px 0 0;
     }
-
 
     .admin-dashboard {
       width: 100%;
@@ -372,7 +370,7 @@
       <button class="btn" onclick="nextStep(2)">Gieo Quẻ Khác 🔄</button>
     </div>
 
-    <!-- BƯỚC 5: KẾT QUẢ SAI CHỦ ĐỀ HOẶC THÔNG TIN VÔ LÝ -->
+    <!-- BƯỚC 5: KẾT QUẢ CẦN SỬA LẠI THÔNG TIN -->
     <div id="step-5" class="step">
       <h2 style="color: #ef4444;">⚠️ THẦY BẮT BÀI RỒI!</h2>
       <div class="result-box error-box">
@@ -387,7 +385,6 @@
   <div class="disclaimer">
     📌 <b>Miễn trừ trách nhiệm:</b> Trang web hoàn toàn mang tính chất giải trí và đem lại tiếng cười thư giãn. Lời phán từ Thầy Bói Tài Gió không mang giá trị pháp lý, lời khuyên tài chính hay y tế chính thức.
   </div>
-
 
   <button id="adminEntryButton" class="btn admin-entry"
           type="button" onclick="openAdminLogin()">
@@ -492,10 +489,6 @@
       }
     });
     dobInput.addEventListener('input', function () { this.setCustomValidity(''); });
-
-    // API được gọi qua backend để không làm lộ khóa OpenAI trong trình duyệt.
-
-
 
     function openAdminLogin() {
       document.getElementById('adminLoginError').textContent = '';
@@ -697,9 +690,7 @@
 
       document.getElementById(`step-${step}`).classList.add('active');
 
-      // Chỉ hiện nút quản trị viên ở trang đầu tiên
       const adminButton = document.getElementById('adminEntryButton');
-
       if (adminButton) {
         adminButton.style.display = step === 1 ? 'block' : 'none';
       }
@@ -731,63 +722,10 @@
       const children = document.getElementById('children').value;
       const topic = document.getElementById('topic').value;
       const question = document.getElementById('question').value.trim();
-      const qLower = question.toLowerCase();
 
-      // Từ khóa nhận diện chủ đề câu hỏi
-      const loveKeywords = ["vợ", "chồng", "người yêu", "bạn gái", "bạn trai", "cưới", "kết hôn", "lấy vợ", "lấy chồng", "thầm thương"];
-      const nonLoveKeywords = ["tiền", "lương", "giàu", "sếp", "công việc", "nhảy việc", "bệnh", "sức khỏe", "mua đất", "trúng số", "bán đất"];
-
-      const isAskingLove = loveKeywords.some(kw => qLower.includes(kw));
-      const isAskingMoneyWorkHealth = nonLoveKeywords.some(kw => qLower.includes(kw));
-
-      // ========================================================
-      // 🚨 BỘ LỌC KIỂM TRA MÂU THUẪN & SAI CHỦ ĐỀ TRỰC TIẾP
-      // ========================================================
-
-      // 1. Mâu thuẫn: Độc thân mà có con
-      if (marital === "Độc thân" && children !== "Chưa có con") {
-        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ ${name} khai báo "Độc thân" mà lại chọn có "${children}"? Chưa cưới mà đã có nghé hả? Khai báo lại giúp Thầy nhé!`;
-        nextStep(5);
-        return;
-      }
-
-      // 2. Mâu thuẫn: Đã kết hôn mà hỏi chuyện cưới xin/vợ chồng
-      if (marital === "Đã có gia đình" && isAskingLove) {
-        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ đã "Đã kết hôn" rồi mà còn hỏi chuyện lấy vợ/chồng nữa? Định tơ tưởng ai nữa đây?`;
-        nextStep(5);
-        return;
-      }
-
-      // 3. Mâu thuẫn giới tính
-      if (gender === "Nữ" && (qLower.includes("có vợ") || qLower.includes("lấy vợ"))) {
-        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ khai giới tính Nữ mà lại hỏi "khi nào lấy vợ"? Kiểm tra lại giới tính giúp Thầy nhé!`;
-        nextStep(5);
-        return;
-      }
-      if (gender === "Nam" && (qLower.includes("có chồng") || qLower.includes("lấy chồng"))) {
-        document.getElementById('res-error-msg').innerText = `Thầy bắt bài rồi! Tín chủ khai giới tính Nam mà lại hỏi "khi nào lấy chồng"? Kiểm tra lại giúp Thầy nhé!`;
-        nextStep(5);
-        return;
-      }
-
-      // 4. Sai chủ đề: Chọn Sức khỏe/Sự nghiệp/Tiền tài mà lại hỏi chuyện yêu đương/vợ chồng
-      if (topic !== "Tình duyên" && isAskingLove) {
-        document.getElementById('res-error-msg').innerText = `Hỏi sai chủ đề rồi tín chủ ơi! Chọn chủ đề "${topic}" mà lại hỏi chuyện vợ chồng, yêu đương? Phải chọn mục "💕 Tình Duyên & Hôn Nhân" Thầy mới bấm quẻ được!`;
-        nextStep(5);
-        return;
-      }
-
-      // 5. Sai chủ đề: Chọn Tình duyên mà hỏi tiền tài/sức khỏe/công việc
-      if (topic === "Tình duyên" && isAskingMoneyWorkHealth) {
-        document.getElementById('res-error-msg').innerText = `Hỏi sai chủ đề rồi! Tín chủ chọn chủ đề "Tình duyên" mà lại hỏi về công việc, tiền tài hay sức khỏe. Vui lòng đổi lại đúng chủ đề giúp Thầy!`;
-        nextStep(5);
-        return;
-      }
-
+      // Chuyển thẳng sang bước Loading để AI xử lý toàn bộ
       nextStep(3);
 
-
-      // Gọi AI xử lý câu phán
       const aiResponse = await askGPT(name, gender, dob, marital, children, topic, question);
 
       if (aiResponse.isCorrect) {
@@ -818,9 +756,7 @@ Thông tin người xin quẻ:
 - Ngày sinh: ${dob}
 - Tình trạng: ${marital}, ${children}
 - Chủ đề: "${topic}"
-- Câu hỏi: "${question}"
-
-Nhiệm vụ: Hãy đóng vai Thầy Bói Tài Gió phán trực tiếp câu hỏi này. Lời phán phải cực kỳ đa dạng, sáng tạo, trêu đùa hài hước dựa trên đúng tên, tuổi, gia cảnh và câu hỏi của họ. Tuyệt đối KHÔNG trả về các câu chung chung lặp đi lặp lại. Xưng "Thầy" và gọi "tín chủ". Viết khoảng 3-5 câu ngắn gọn, độc lạ. Đây là nội dung giải trí, không khẳng định chắc chắn về sức khỏe, tài chính hoặc tương lai.`;
+- Câu hỏi: "${question}"`;
 
       try {
         const response = await fetch("/api/fortune", {
